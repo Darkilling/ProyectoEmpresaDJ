@@ -1,0 +1,23 @@
+Iniciar el proyecto Django: Dentro del entorno virtual, navega a la carpeta donde deseas crear el proyecto y ejecuta el siguiente comando para crear el proyecto "empresa dj":
+
+
+django-admin startproject empresadj .
+Nota: El punto (.) al final indica que se debe crear el proyecto en el directorio actual.
+
+cd empresadj
+
+Crear la app "OT": Luego, dentro del mismo entorno, ejecuta el siguiente comando para crear la app "OT":
+
+python manage.py startapp OT
+Registrar la app en el proyecto: Una vez que la app está creada, debes registrarla en el archivo settings.py de tu proyecto. Abre el archivo settings.py y agrega 'OT' a la lista INSTALLED_APPS:
+
+INSTALLED_APPS = [
+    # Otras apps predeterminadas de Django
+    'OT',
+]
+
+para iniciar el proyecto tienes que estar en la ruta  C:\Users\Hernan-PC\Documents\generacion ot\
+
+con el comando 
+
+(venv) PS C:\Users\Hernan-PC\Documents\generacion ot> python manage.py runserver y se inicia el proyecto
