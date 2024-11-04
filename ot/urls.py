@@ -9,7 +9,22 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),  # Dashboard que requiere autenticación
     path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),  # Cerrar sesión
     path('profile/', views.profile, name='profile'),  # Nueva ruta para revisar el perfil
+    path('vista_guia/', views.vista_guia, name='vista_guia'),  # Nueva ruta para la vista guía
+    path('seleccionar-area/', views.seleccionar_area, name='seleccionar_area'),
+    path('seleccionar-tipo-paradero/', views.seleccionar_tipo_paradero, name='seleccionar_tipo_paradero'),
+    path('seleccionar-tareas/', views.seleccionar_tareas, name='seleccionar_tareas'),
+    path('seleccionar-materiales/', views.seleccionar_materiales, name='seleccionar_materiales'),
+    path('guardar-seleccion/', views.guardar_seleccion, name='guardar_seleccion'),
+    path('guia/<int:seleccion_id>/', views.vista_guia, name='vista_guia'),  # Ruta para mostrar la guía
+
+
 
     path('password_change/', auth_views.PasswordChangeView.as_view(template_name='password_change.html'), name='password_change'),
     path('password_change_done/', auth_views.PasswordChangeDoneView.as_view(template_name='password_change_done.html'), name='password_change_done'),
+    
+]
+
+
+urlpatterns = [
+
 ]

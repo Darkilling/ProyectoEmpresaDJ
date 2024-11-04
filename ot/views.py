@@ -7,6 +7,12 @@ from django.contrib.auth.models import User
 from .forms import CustomUserCreationForm
 from django.contrib import messages
 from django.contrib.messages import get_messages
+from django.shortcuts import get_object_or_404
+from django.shortcuts import render, redirect
+from .forms import AreaForm, TipoParaderoForm, TareaForm, MaterialForm, DatosGeneralesForm
+from .models import Area, TipoParadero, Tarea, Material, Seleccion
+
+
 
 def register(request):
     if request.method == 'POST':
@@ -71,7 +77,6 @@ def profile(request):
     return render(request, 'profile.html')  # Asegúrate de tener una plantilla `profile.html` creada en tu directorio de plantillas
 
 
-
 @login_required
 def guardar_seleccion(request):
     if request.method == 'POST':
@@ -97,9 +102,64 @@ def guardar_seleccion(request):
         form = DatosGeneralesForm()
     return render(request, 'guardar_seleccion.html', {'form': form})
 
-
+@login_required
 def vista_guia(request, seleccion_id):
     seleccion = Seleccion.objects.get(id=seleccion_id)
     return render(request, 'vista_guia.html', {'seleccion': seleccion})
+
+
+@login_required
+def seleccionar_area(request):
+    if request.method == 'POST':
+        form = AreaForm(request.POST)
+        if form.is_valid():
+            request.session['area_id'] = form.cleaned_data['area'].id
+            return redirect('seleccionar_tipo_paradero')
+    else:
+        form = AreaForm()
+    return render(request, 'seleccionar_area.html', {'form': form})
+
+@login_required
+def seleccionar_tipo_paradero(request):
+    area_id = request.session.get('area_id')
+    if not area_id:
+        return redirect('seleccionar_area')
+    if request.method == 'POST':
+        form = TipoParaderoForm(area_id, request.POST)
+        if form.is_valid():
+            request.session['tipo_paradero_id'] = form.cleaned_data['tipo_paradero'].id
+            return redirect('seleccionar_tareas')
+    else:
+        form = TipoParaderoForm(area_id)
+    return render(request, 'seleccionar_tipo_paradero.html', {'form': form})
+
+@login_required
+def seleccionar_tareas(request):
+    if request.method == 'POST':
+        form = TareaForm(request.POST)
+        if form.is_valid():
+            request.session['tareas'] = [t.id for t in form.cleaned_data['tareas']]
+            return redirect('seleccionar_materiales')
+    else:
+        form = TareaForm()
+    return render(request, 'seleccionar_tareas.html', {'form': form})
+
+@login_required
+def seleccionar_materiales(request):
+    if request.method == 'POST':
+        form = MaterialForm(request.POST)
+        if form.is_valid():
+            seleccion = Seleccion.objects.create(
+                area_id=request.session.get('area_id'),
+                tipo_paradero_id=request.session.get('tipo_paradero_id'),
+                otros=form.cleaned_data['otros'],
+                observacion=form.cleaned_data['observacion'],
+            )
+            seleccion.tareas.set(request.session.get('tareas'))
+            seleccion.materiales.set(form.cleaned_data['materiales'])
+            return redirect('resultado')
+    else:
+        form = MaterialForm()
+    return render(request, 'seleccionar_materiales.html', {'form': form})
 
 
