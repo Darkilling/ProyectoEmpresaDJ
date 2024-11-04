@@ -24,7 +24,3 @@ urlpatterns = [
     
 ]
 
-
-urlpatterns = [
-
-]
