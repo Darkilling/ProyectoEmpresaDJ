@@ -24,3 +24,17 @@ class CustomUserCreationForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+
+
+class DatosGeneralesForm(forms.Form):
+    direccion = forms.CharField(max_length=255, label="Dirección")
+    comuna = forms.CharField(max_length=100, label="Comuna")
+    tiempo_estimado = forms.CharField(max_length=50, label="Tiempo Estimado")
+    ceco = forms.CharField(max_length=100, label="CeCo")
+    jefe_proyecto = forms.CharField(max_length=100, label="Jefe de Proyecto")
+    supervisor = forms.CharField(max_length=100, label="Supervisor")
+    cliente = forms.CharField(max_length=100, label="Cliente")
+    otros = forms.CharField(max_length=255, required=False, label="Otros")
+    observacion = forms.CharField(widget=forms.Textarea, required=False, label="Observación")
+

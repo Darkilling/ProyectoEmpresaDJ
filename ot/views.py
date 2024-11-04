@@ -69,3 +69,37 @@ def dashboard(request):
 def profile(request):
     # Puedes añadir lógica para mostrar los detalles del perfil aquí
     return render(request, 'profile.html')  # Asegúrate de tener una plantilla `profile.html` creada en tu directorio de plantillas
+
+
+
+@login_required
+def guardar_seleccion(request):
+    if request.method == 'POST':
+        form = DatosGeneralesForm(request.POST)
+        if form.is_valid():
+            seleccion = Seleccion.objects.create(
+                area_id=request.session.get('area_id'),
+                tipo_paradero_id=request.session.get('tipo_paradero_id'),
+                direccion=form.cleaned_data['direccion'],
+                comuna=form.cleaned_data['comuna'],
+                tiempo_estimado=form.cleaned_data['tiempo_estimado'],
+                ceco=form.cleaned_data['ceco'],
+                jefe_proyecto=form.cleaned_data['jefe_proyecto'],
+                supervisor=form.cleaned_data['supervisor'],
+                cliente=form.cleaned_data['cliente'],
+                otros=form.cleaned_data['otros'],
+                observacion=form.cleaned_data['observacion'],
+            )
+            seleccion.tareas.set(request.session.get('tareas'))
+            seleccion.materiales.set(request.session.get('materiales'))
+            return redirect('vista_guia', seleccion_id=seleccion.id)
+    else:
+        form = DatosGeneralesForm()
+    return render(request, 'guardar_seleccion.html', {'form': form})
+
+
+def vista_guia(request, seleccion_id):
+    seleccion = Seleccion.objects.get(id=seleccion_id)
+    return render(request, 'vista_guia.html', {'seleccion': seleccion})
+
+
