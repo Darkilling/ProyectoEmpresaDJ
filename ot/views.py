@@ -97,7 +97,7 @@ def guardar_seleccion(request):
             )
             seleccion.tareas.set(request.session.get('tareas'))
             seleccion.materiales.set(request.session.get('materiales'))
-            return redirect('vista_guia', seleccion_id=seleccion.id)
+            return redirect('vista_guia')
     else:
         form = DatosGeneralesForm()
     return render(request, 'guardar_seleccion.html', {'form': form})

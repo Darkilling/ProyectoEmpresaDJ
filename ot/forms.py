@@ -57,3 +57,4 @@ class DatosGeneralesForm(forms.Form):
     otros = forms.CharField(max_length=255, required=False, label="Otros")
     observacion = forms.CharField(widget=forms.Textarea, required=False, label="Observación")
 
+

@@ -1,0 +1,9 @@
+
+{% block content %}
+  <h2>Ingreso de Datos para la Guía</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Guardar y Ver Guía</button>
+  </form>
+{% endblock %}
