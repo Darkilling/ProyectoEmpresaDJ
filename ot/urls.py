@@ -17,6 +17,8 @@ urlpatterns = [
     path('guardar-seleccion/', views.guardar_seleccion, name='guardar_seleccion'),
     path('guia/<int:seleccion_id>/', views.vista_guia, name='vista_guia'),  # Ruta para mostrar la guía
     path('ingreso-datos-guia/', views.guardar_seleccion, name='guardar_seleccion'),  # Ruta para guardar la selección
+    path('lista_OT/', views.lista_OT, name='lista_OT'),  # Ruta para mostrar la lista de OT
+    path('crear-seleccion/', views.crear_seleccion, name='crear_seleccion'),  # Ruta para crear una selección
 
 
 

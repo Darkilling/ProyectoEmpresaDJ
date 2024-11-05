@@ -1,21 +1,29 @@
 from django.db import models
 
-# Create your models here.
-from django.db import models
-
 class Area(models.Model):
     nombre = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nombre
 
 class TipoParadero(models.Model):
     nombre = models.CharField(max_length=100)
     area = models.ForeignKey(Area, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.nombre
+
 class Tarea(models.Model):
     nombre = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nombre
 
 class Material(models.Model):
     nombre = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.nombre
 
 class Seleccion(models.Model):
     area = models.ForeignKey(Area, on_delete=models.CASCADE)

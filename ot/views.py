@@ -11,6 +11,7 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from .forms import AreaForm, TipoParaderoForm, TareaForm, MaterialForm, DatosGeneralesForm
 from .models import Area, TipoParadero, Tarea, Material, Seleccion
+from .forms import SeleccionForm
 
 
 
@@ -162,4 +163,18 @@ def seleccionar_materiales(request):
         form = MaterialForm()
     return render(request, 'seleccionar_materiales.html', {'form': form})
 
+@login_required
+def lista_OT(request):
+    seleccion = Seleccion.objects.all()
+    return render(request, 'lista_OT.html', {'seleccion': seleccion})
 
+@login_required
+def crear_seleccion(request):
+    if request.method == 'POST':
+        form = SeleccionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')  # Redirige a la página que desees después de guardar
+    else:
+        form = SeleccionForm()
+    return render(request, 'crear_seleccion.html', {'form': form})

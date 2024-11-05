@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Area, TipoParadero, Tarea, Material
+from .models import Area, TipoParadero, Tarea, Material, Seleccion
 
 class CustomUserCreationForm(forms.ModelForm):
     email = forms.EmailField(required=True)
@@ -58,3 +58,16 @@ class DatosGeneralesForm(forms.Form):
     observacion = forms.CharField(widget=forms.Textarea, required=False, label="Observación")
 
 
+class SeleccionForm(forms.ModelForm):
+    class Meta:
+        model = Seleccion
+        fields = [
+            'direccion', 'comuna', 'tiempo_estimado', 'ceco', 'jefe_proyecto',
+            'supervisor', 'cliente', 'otros', 'observacion', 'area', 'tipo_paradero',
+            'tareas', 'materiales'
+        ]
+
+    area = forms.ModelChoiceField(queryset=Area.objects.all(), label="Área")
+    tipo_paradero = forms.ModelChoiceField(queryset=TipoParadero.objects.all(), label="Tipo de Paradero")
+    tareas = forms.ModelMultipleChoiceField(queryset=Tarea.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tareas")
+    materiales = forms.ModelMultipleChoiceField(queryset=Material.objects.all(), widget=forms.CheckboxSelectMultiple, label="Materiales")
