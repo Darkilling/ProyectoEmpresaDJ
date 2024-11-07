@@ -7,6 +7,8 @@ from django.contrib.auth.models import User
 from .forms import CustomUserCreationForm
 from django.contrib import messages
 from django.contrib.messages import get_messages
+from .forms import OTFormularioForm
+from .models import OTFormulario
 
 def register(request):
     if request.method == 'POST':
@@ -69,3 +71,23 @@ def dashboard(request):
 def profile(request):
     # Puedes añadir lógica para mostrar los detalles del perfil aquí
     return render(request, 'profile.html')  # Asegúrate de tener una plantilla `profile.html` creada en tu directorio de plantillas
+
+
+@login_required
+def lista_OT(request):
+    ot_lista = OTFormulario.objects.all()
+    return render(request, 'lista_OT.html', {'ot_lista': ot_lista})  
+
+
+
+@login_required
+def crear_OT(request):
+    if request.method == 'POST':
+        form = OTFormularioForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('success_page')  # Redirigir a una página de éxito después de guardar
+    else:
+        form = OTFormularioForm()
+
+    return render(request, 'crear_OT.html', {'form': form})

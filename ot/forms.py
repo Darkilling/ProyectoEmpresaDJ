@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from .models import OTFormulario
 
 class CustomUserCreationForm(forms.ModelForm):
     email = forms.EmailField(required=True)
@@ -24,3 +25,21 @@ class CustomUserCreationForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+class OTFormularioForm(forms.ModelForm):
+    class Meta:
+        model = OTFormulario
+        fields = [
+            'cliente',
+            'direccion',
+            'comuna',
+            'tiempo_estimado',
+            'CECO',
+            'jefe_proyecto',
+            'supervisor',
+            'planificacion_material',
+            'observacion'
+        ]
+        widgets = {
+            'observacion': forms.Textarea(attrs={'rows': 4, 'cols': 40}),
+        }
